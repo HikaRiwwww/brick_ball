@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>打砖块</title>
+  <script src="ball.js" type="text/javascript"></script>
+  <script src="game.js" type="text/javascript"></script>
+  <script src="block.js" type="text/javascript"></script>
+  <script src="paddle.js" type="text/javascript"></script>
+  <script src="utils.js" type="text/javascript"></script>
+  <script src="levels.js" type="text/javascript"></script>
+  <style media="screen">
+    #canvas {
+      border: solid green 1px
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="500" height="400"></canvas>
+  <hr>
+  <input id="spdSlider" type="range" value="30" hidden></input>
+
+  <script type="text/javascript">
+    // 打印
+    var pause = false
+    var blocks = loadlevel(1)
+
+    var enableDebugMode = function(enable) {
+      if (!enable) {
+        return
+      }
+      document.querySelector("#spdSlider").removeAttribute("hidden")
+      window.addEventListener('keydown', function(event) {
+        var k = event.key
+        if (k == 'p') {
+          pause = !pause
+        }
+        if ("12345689".search(k) != -1) {
+          blocks = loadlevel(Number(k))
+        }
+      })
+    }
+
+    var __main = function() {
+
+      enableDebugMode(true)
+
+      var paddle = Paddle()
+
+      var ball = Ball()
+
+      var game = Game()
+
+      g.registerKeyEvent("a", function() {
+        paddle.moveLeft()
+      })
+      g.registerKeyEvent("d", function() {
+        paddle.moveRight()
+      })
+      g.registerKeyEvent("f", function() {
+        ball.fire()
+      })
+
+      g.update = function() {
+        if (pause) {
+          return
+        }
+        var f = document.querySelector("#spdSlider").value
+        window.fps = Number(f)
+        ball.move()
+        if (paddle.collide(ball)) {
+          ball.speedX *= -1
+          ball.speedY *= -1
+        }
+        for (var i = 0; i < blocks.length; i++) {
+          if (blocks[i].collide(ball)) {
+            blocks[i].kill()
+            ball.speedY *= -1
+          }
+        }
+      }
+      g.draw = function() {
+        g.drawImg(paddle)
+        g.drawImg(ball)
+        for (var i = 0; i < blocks.length; i++) {
+          if (blocks[i].alive) {
+            g.drawImg(blocks[i])
+          }
+        }
+      }
+    }
+
+    __main()
+  </script>
+</body>
+
+</html>
