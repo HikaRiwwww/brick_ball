@@ -7,8 +7,8 @@ var loadImgFromPath = function(path) {
 }
 
 var isIntersect = function(a, b) {
-  if (a.x > b.x && a.x <= b.x + b.img.width) {
-    if (a.y > b.y && a.y <= b.y + b.img.height) {
+  if (a.x > b.x && a.x < b.x + b.img.width) {
+    if (a.y > b.y && a.y < b.y + b.img.height) {
       return true
     }
   }
