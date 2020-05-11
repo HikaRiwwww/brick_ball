@@ -30,8 +30,8 @@ var __main = function() {
   var game = Game()
 
   game.canvas.addEventListener('mousedown',function(event){
-    mouseX = event.offsetX
-    mouseY = event.offsetY
+    var mouseX = event.offsetX
+    var mouseY = event.offsetY
     log(mouseX, mouseY)
   })
 
