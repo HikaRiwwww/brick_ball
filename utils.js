@@ -1,4 +1,14 @@
-var log = console.log.bind(console)
+var log = function(){
+  var logArea = document.querySelector("#log")
+  console.log(arguments)
+  for (var i = 0; i < arguments.length; i++) {
+    logArea.value += arguments[i]
+    if (i!= arguments.length-1){
+      logArea.value+=","
+    }
+  }
+  logArea.value += "\n"
+}
 
 var loadImgFromPath = function(path) {
   var img = new Image();

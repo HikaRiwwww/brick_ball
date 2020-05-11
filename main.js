@@ -1,6 +1,5 @@
 var pause = false
 var blocks = loadlevel(1)
-
 var enableDebugMode = function(enable) {
   if (!enable) {
     return
@@ -29,6 +28,12 @@ var __main = function() {
   var ball = Ball()
 
   var game = Game()
+
+  game.canvas.addEventListener('mousedown',function(event){
+    mouseX = event.offsetX
+    mouseY = event.offsetY
+    log(mouseX, mouseY)
+  })
 
   g.registerKeyEvent("a", function() {
     paddle.moveLeft()
