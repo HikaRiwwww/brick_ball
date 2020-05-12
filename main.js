@@ -21,6 +21,7 @@ var __main = function() {
 
   enableDebugMode(true)
 
+
   var score = 0
 
   var paddle = Paddle()
@@ -29,11 +30,27 @@ var __main = function() {
 
   var game = Game()
 
-  game.canvas.addEventListener('mousedown',function(event){
+  var dragEnabled = false
+  game.canvas.addEventListener('mousedown', function(event) {
     var mouseX = event.offsetX
     var mouseY = event.offsetY
-    log(mouseX, mouseY)
+    if (ball.hasPoint(mouseX, mouseY)) {
+      dragEnabled = true
+    }
   })
+  game.canvas.addEventListener('mousemove', function(event) {
+    var mouseX = event.offsetX
+    var mouseY = event.offsetY
+
+    if (dragEnabled){
+      ball.x = mouseX
+      ball.y = mouseY
+    }
+  })
+  game.canvas.addEventListener('mouseup', function(event) {
+    dragEnabled = false
+  })
+
 
   g.registerKeyEvent("a", function() {
     paddle.moveLeft()
@@ -68,7 +85,7 @@ var __main = function() {
     g.drawImg(paddle)
     g.drawImg(ball)
     g.context.fillStyle = "rgb(0, 0, 119)"
-    g.context.fillText("分数："+ score, 15 ,380)
+    g.context.fillText("分数：" + score, 15, 380)
     for (var i = 0; i < blocks.length; i++) {
       if (blocks[i].alive) {
         g.drawImg(blocks[i])

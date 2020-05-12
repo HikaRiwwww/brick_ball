@@ -1,10 +1,10 @@
-var log = function(){
+var log = function() {
   var logArea = document.querySelector("#log")
   console.log(arguments)
   for (var i = 0; i < arguments.length; i++) {
     logArea.value += arguments[i]
-    if (i!= arguments.length-1){
-      logArea.value+=","
+    if (i != arguments.length - 1) {
+      logArea.value += ","
     }
   }
   logArea.value += "\n"
@@ -18,8 +18,10 @@ var loadImgFromPath = function(path) {
 
 var isIntersect = function(a, b) {
   if (a.x > b.x && a.x < b.x + b.img.width) {
-    if (a.y > b.y && a.y < b.y + b.img.height) {
+    if (a.y + a.img.height > b.y && a.y + a.img.height < b.y + b.img.height) {
       return true
+    }else if (a.y < b.y + b.img.height) {
+      
     }
   }
   return false
